@@ -1,15 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { FilterInput, FindLabel } from './ContactFilter.styled';
 import { setFilter } from 'redux/filterSlice';
-import { getFilters } from 'redux/selectors';
+import { selectFilter } from 'redux/selectors';
 
 export const ContactFilter = () => {
-  const filter = useSelector(getFilters);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   const handleChangeFilter = evt => {
-    const query = evt.currentTarget.value;
-    dispatch(setFilter(query));
+    dispatch(setFilter(evt.target.value.trim()));
   };
 
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   AddContactToForm,
@@ -9,9 +10,8 @@ import {
   FieldInput,
   Label,
 } from './ContactsForm.styled';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContacts } from 'redux/contactsSlice';
-import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/selectors';
 
 const ContactsSchema = Yup.object().shape({
   name: Yup.string()
@@ -19,46 +19,41 @@ const ContactsSchema = Yup.object().shape({
     .required(),
   number: Yup.string()
     .min(5, 'Too short  phone number')
-    .max(10, 'Too long phone number')
+    .max(12, 'Too long phone number')
     .matches(
-      /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+      /^\+?\d{1,3}?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,12}$/,
       'Invalid phone number format'
     )
     .required(),
 });
 
-const initialValue = { name: '', number: '' };
-
 export const ContactsForm = () => {
-  const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
 
-  const handleFindDublicate = ({ name, number }) => {
+  const handleFindDublicate = ({ name, phone }) => {
     const trimName = name.toLowerCase().trim();
-    const trimNumber = number.trim();
+    const trimNumber = phone.trim();
 
     const dublicate = contacts.find(
       contact =>
         contact.name.toLowerCase().trim() === trimName ||
-        contact.number.trim() === trimNumber
+        contact.phone.trim() === trimNumber
     );
     return Boolean(dublicate);
   };
 
-  const handleAddContact = ({ name, number }) => {
-    if (handleFindDublicate({ name, number })) {
+  const handleAddContact = ({ name, phone }) => {
+    if (handleFindDublicate({ name, phone })) {
       return alert(`${name} is already in contacts`);
     }
-    dispatch(addContacts({ name, number }));
+    dispatch(addContact({ name, phone }));
   };
 
   return (
     <Formik
-      initialValues={initialValue}
-      onSubmit={(values, { resetForm }) => {
-        handleAddContact({ ...values });
-        resetForm();
-      }}
+      initialValues={{ name: '', phone: '' }}
+      onSubmit={handleAddContact}
       validationSchema={ContactsSchema}
     >
       <AddContactToForm>
@@ -69,7 +64,7 @@ export const ContactsForm = () => {
         </Label>
         <Label>
           Number
-          <FieldInput type="tel" name="number" placeholder="000-00-00" />
+          <FieldInput type="tel" name="number" placeholder="000-000-0000" />
           <ErrorMes name="number" component="div" />
         </Label>
         <ButtontToAddContact type="submit">Add contact</ButtontToAddContact>

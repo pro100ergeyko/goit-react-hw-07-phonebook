@@ -8,10 +8,10 @@ import {
   PhoneBookTitle,
   Wrapper,
 } from './Global.styled';
-import { getContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 
 export const App = () => {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   return (
     <Wrapper>
       <Container>
