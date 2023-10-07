@@ -30,13 +30,13 @@ export const ContactList = () => {
       {isLoading && !error ? (
         <Loader />
       ) : fitterContacts.length === 0 && !error ? (
-        <p>The Phonebook is empty. Add your first contact. 🫤</p>
+        <p>The Phonebook is empty. Add your first contact.</p>
       ) : (
-        fitterContacts.map(({ id, name, phone }) => {
+        fitterContacts.map(({ id, name, number }) => {
           return (
             <Item key={id}>
               <Span>{name}:</Span>
-              <Span>{phone}</Span>
+              <Span>{number}</Span>
               <Btn
                 type="button"
                 onClick={() => handleDeletContacts(id)}

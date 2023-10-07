@@ -31,29 +31,32 @@ export const ContactsForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
 
-  const handleFindDublicate = ({ name, phone }) => {
+  const handleFindDublicate = ({ name, number }) => {
     const trimName = name.toLowerCase().trim();
-    const trimNumber = phone.trim();
+    const trimNumber = number.trim();
 
     const dublicate = contacts.find(
       contact =>
         contact.name.toLowerCase().trim() === trimName ||
-        contact.phone.trim() === trimNumber
+        contact.number.trim() === trimNumber
     );
     return Boolean(dublicate);
   };
 
-  const handleAddContact = ({ name, phone }) => {
-    if (handleFindDublicate({ name, phone })) {
+  const handleAddContact = ({ name, number }, reser) => {
+    if (handleFindDublicate({ name, number })) {
       return alert(`${name} is already in contacts`);
     }
-    dispatch(addContact({ name, phone }));
+    dispatch(addContact({ name, number }));
   };
 
   return (
     <Formik
-      initialValues={{ name: '', phone: '' }}
-      onSubmit={handleAddContact}
+      initialValues={{ name: '', number: '' }}
+      onSubmit={(values, { resetForm }) => {
+        handleAddContact({ ...values });
+        resetForm();
+      }}
       validationSchema={ContactsSchema}
     >
       <AddContactToForm>

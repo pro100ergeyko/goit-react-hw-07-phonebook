@@ -43,3 +43,41 @@ export const ButtontToAddContact = styled.button`
     color: #fff;
   }
 `;
+
+// import styled from 'styled-components';
+
+// export const Form = styled.form`
+//   display: flex;
+//   flex-direction: column;
+//   margin-bottom: 20px;
+// `;
+
+// export const Input = styled.input`
+//   padding: 10px;
+//   margin-bottom: 10px;
+//   border-radius: 6px;
+//   border: none;
+//   outline: 0;
+//   background-color: #fff;
+//   box-shadow: 0 1px 6px 0 #20212447;
+// `;
+
+// export const Text = styled.p`
+//   margin-bottom: 15px;
+// `;
+
+// export const ButtontToAddContact = styled.button`
+//   padding: 10px;
+//   margin: 16px;
+//   border-radius: 20px;
+//   font-size: 16px;
+//   background-color: #cefb04;
+//   border-color: #0213ff;
+//   cursor: pointer;
+
+//   :hover {
+//     background-color: #0213ff;
+//     border-color: #cefb04;
+//     color: #fff;
+//   }
+// `;
